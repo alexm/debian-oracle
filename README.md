@@ -49,7 +49,7 @@ kernel.shmmax = 2147483648
 kernel.shmall = 2097152
 kernel.shmmni = 4096
 net.ipv4.ip_local_port_range = 1024 65000
-vm.hugetlb_shm_group = 11s0
+vm.hugetlb_shm_group = 111
 vm.nr_hugepages = 64
 ```
 
@@ -127,6 +127,17 @@ Add User
 --------
 
 ```
+SQL> select resource_name,liMit from dba_profiles where profile='DEFAULT';
+
+...
+PASSWORD_LIFE_TIME
+180
+...
+
+SQL> ALTER PROFILE DEFAULT LIMIT PASSWORD_LIFE_TIME UNLIMITED;
+
+Profile altered.
+
 SQL> CREATE USER c##scott IDENTIFIED BY tiger ;
 
 User created.
@@ -151,11 +162,35 @@ DBD::Oracle
 
 ```
 su - oracle -c "echo 'bequeath_detach = yes' >> /u01/app/oracle/product/12.1.0/dbhome_1/network/admin/sqlnet.ora"
-source /usr/local/bin/oraenv
+declare -x ORACLE_SID="orcl"
+declare -x ORACLE_BASE="/u01/app/oracle"
+declare -x ORACLE_HOME="/u01/app/oracle/product/12.1.0/dbhome_1"
 wget https://cpan.metacpan.org/authors/id/P/PY/PYTHIAN/DBD-Oracle-1.74.tar.gz
 tar xf DBD-Oracle-1.74.tar.gz
 cd DBD-Oracle-1.74
 perl Makefile.PL
 make
 make test ORACLE_USERID='c##scott/tiger' ORACLE_USERID_2='c##foo/bar'
+```
+
+Build 32bit package
+-------------------
+
+Start the sid32 box:
+
+```
+cd sid32
+vagrant up
+vagrant ssh
+```
+
+Build binary package:
+
+```
+cd src/pkg-perl/packages/libdbd-oracle-perl
+debclean
+mr up
+debuild binary
+dpkg-genchanges -b > ../libdbd-oracle-perl_1.74-3_i386.changes
+cp -ai ../libdbd-oracle-perl*1.74-3_i386.* /vagrant/
 ```
