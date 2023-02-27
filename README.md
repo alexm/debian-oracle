@@ -171,6 +171,7 @@ cd DBD-Oracle-1.74
 perl Makefile.PL
 make
 make test ORACLE_USERID='c##scott/tiger' ORACLE_USERID_2='c##foo/bar'
+make test ORACLE_USERID='username/password' DBI_DRIVER=Oracle ORACLE_DSN='tnsnames_entry'
 ```
 
 Build 32bit package
@@ -190,7 +191,33 @@ Build binary package:
 cd src/pkg-perl/packages/libdbd-oracle-perl
 debclean
 mr up
-debuild binary
+debuild -- binary
 dpkg-genchanges -b > ../libdbd-oracle-perl_1.74-3_i386.changes
 cp -ai ../libdbd-oracle-perl*1.74-3_i386.* /vagrant/
 ```
+
+Test package
+------------
+
+```
+declare -x ORACLE_SID="orcl"
+declare -x ORACLE_BASE="/u01/app/oracle"
+declare -x ORACLE_HOME="/u01/app/oracle/product/12.1.0/dbhome_1"
+ORACLE_USERID='c##scott/tiger' ORACLE_USERID_2='c##foo/bar' prove t/*.t
+```
+
+Merge changes
+-------------
+
+mergechanges libdbd-oracle-perl_1.74-4_amd64.changes libdbd-oracle-perl_1.74-4_i386.changes > libdbd-oracle-perl_1.74-4_any.changes
+debsign --re-sign libdbd-oracle-perl_1.74-4_any.changes
+
+Upload
+------
+
+dput libdbd-oracle-perl_1.74-4_any.changes
+
+Tag
+---
+
+git tag -s debian/1.74-4
