@@ -1,7 +1,7 @@
 Oracle Database 12c Release 1 (12.1)
 ====================================
 
-* [DataBase Oracle in Debian Wiki](https://wiki.debian.org/DataBase/Oracle)
+* [OracleDB in Debian Wiki](https://wiki.debian.org/OracleDB)
 * [Database Quick Installation Guide](http://docs.oracle.com/database/121/LTDQI/toc.htm)
   * `uname -m` => `x86_64`
   * 1 GB RAM
