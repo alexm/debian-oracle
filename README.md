@@ -127,6 +127,7 @@ Add User
 --------
 
 ```
+oracle@debian-sid:~$ sqlplus SYS AS SYSDBA # password: oracle
 SQL> select resource_name,liMit from dba_profiles where profile='DEFAULT';
 
 ...
