@@ -6,4 +6,5 @@
 *.changes
 *.tar.xz
 *.tar.gz
+releases/
 sid32/keys/
