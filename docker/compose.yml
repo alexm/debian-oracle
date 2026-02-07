@@ -1,0 +1,17 @@
+name: dbd-oracle-docker
+services:
+  oracle:
+    image: gvenzl/oracle-free:latest
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: adminpass
+      APP_USER: kermit
+      APP_USER_PASSWORD: foobar
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+      start_interval: 5s
