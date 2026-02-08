@@ -222,3 +222,35 @@ Tag
 ---
 
 git tag -s debian/1.74-4
+
+Test Oracle DB in docker
+========================
+
+Start Oracle DB
+---------------
+
+```
+cd docker
+docker compose up -d
+```
+
+Install deps
+------------
+
+```
+sudo apt install libcrypt-dev libaio-dev
+sudo ln -snf libaio.so.1t64 /usr/lib/x86_64-linux-gnu/libaio.so.1
+sudo apt install ./oracle-instantclient-{basic,devel}_21.9.0.0.0-2_amd64.deb
+```
+
+Build nd test DBD::Oracle
+-------------------------
+
+```
+wget https://cpan.metacpan.org/authors/id/Z/ZA/ZARQUON/DBD-Oracle-1.91_2.tar.gz
+tar xf DBD-Oracle-1.91_2.tar.gz
+cd DBD-Oracle-1.91_2
+perl Makefile.PL
+make
+make test ORACLE_USERID=kermit/foobar ORACLE_DSN='dbi:Oracle://localhost:1521/FREEPDB1'
+```
