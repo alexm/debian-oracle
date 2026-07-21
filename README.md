@@ -1,3 +1,11 @@
+**Warning!**
+
+The goal for this project was to run Oracle on Debian in order to test
+libdbd-oracle-perl packages. Since they can be tested now with Docker,
+there's no longer need to maintain it.
+
+Please, see [salsa-ci.compose.yml](https://salsa.debian.org/perl-team/modules/packages/libdbd-oracle-perl/-/blob/master/debian/salsa-ci.compose.yml?ref_type=heads) for details.
+
 Oracle Database 12c Release 1 (12.1)
 ====================================
 
